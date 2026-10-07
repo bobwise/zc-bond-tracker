@@ -90,6 +90,10 @@ test('provides accessible help for qualifying Assist and support actions', () =>
   expect(screen.getByText(/Medic’s Morale Boost and an Astromech’s Coordinated Support/i)).toBeInTheDocument();
   expect(screen.getByText(/A–B, A–C, and A–D/i)).toBeInTheDocument();
   expect(screen.getByText(/grenade thrown at an ally does not count/i)).toBeInTheDocument();
+
+  fireEvent.keyDown(document, { key: 'Escape' });
+  expect(assistHelp).toHaveAttribute('aria-expanded', 'false');
+  expect(otherHelp).toHaveAttribute('aria-expanded', 'false');
 });
 
 test('tracks reversible interactions while persisting across browser sessions', () => {

@@ -112,6 +112,26 @@ function CategoryHelp({ kind, pairId }) {
   const [isOpen, setIsOpen] = useState(false);
   const tooltipId = `help-${pairId}-${kind}`;
 
+  useEffect(() => {
+    function handlePointerDown(event) {
+      if (!(event.target instanceof Node)) return;
+      if (!event.target.closest('.category-help')) {
+        setIsOpen(false);
+      }
+    }
+
+    function handleKeyDown(event) {
+      if (event.key === 'Escape') setIsOpen(false);
+    }
+
+    document.addEventListener('pointerdown', handlePointerDown);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   return (
     <div className={`category-help${isOpen ? ' category-help--open' : ''}`}>
       <button
@@ -123,9 +143,6 @@ function CategoryHelp({ kind, pairId }) {
         aria-describedby={tooltipId}
         title={`About ${isAssist ? 'Assist' : 'Buffs'} Bond XP`}
         onClick={() => setIsOpen((open) => !open)}
-        onKeyDown={(event) => {
-          if (event.key === 'Escape') setIsOpen(false);
-        }}
       >
         <span aria-hidden="true">?</span>
       </button>
@@ -134,14 +151,14 @@ function CategoryHelp({ kind, pairId }) {
           <>
             <p className="tooltip-kicker">ASSIST · +10 XP</p>
             <p>Request another Operator to assist with your attack. Both Operators get 10 Bond XP as soon as the Assist is requested—even if the attack is not made. The same pair can earn this twice per mission, in either direction.</p>
-            <p><strong>Assist examples:</strong> a Scoundrel ultimate can qualify when it completes the attack assist, and the same pair can earn the bonus in either direction.</p>
+            <p>A Scoundrel ultimate can qualify when it completes the assist.</p>
           </>
         ) : (
           <>
             <p className="tooltip-kicker">BUFFS · +4 XP EACH</p>
             <p>Healing Stims, Combat Stims, Hawks’ PICO-5, and an Astromech’s Built-In Commlink.</p>
             <p><strong>Class ultimates:</strong> a Medic’s Morale Boost and an Astromech’s Coordinated Support grant XP from the caster to every ally who receives the buff.</p>
-            <p>Examples include A–B, A–C, and A–D. A grenade thrown at an ally does not count.</p>
+            <p>A–B, A–C, and A–D are reference examples. A grenade thrown at an ally does not count.</p>
           </>
         )}
       </div>

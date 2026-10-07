@@ -686,6 +686,13 @@ button:disabled {
   color: #f0d27c;
 }
 
+.category-help--open > .category-help-button {
+  border-color: #f1d589;
+  background: #d0b268;
+  box-shadow: 0 0 0 3px rgba(208, 178, 104, 0.2);
+  color: #151816;
+}
+
 .category-help:hover,
 .category-help:focus-within,
 .category-help--open {
