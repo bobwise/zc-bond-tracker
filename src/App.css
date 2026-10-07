@@ -34,7 +34,6 @@ button:disabled {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  border-bottom: 1px solid #2c302c;
 }
 
 .brand {
@@ -108,10 +107,9 @@ button:disabled {
 
 .selection-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.55fr) minmax(260px, 0.8fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: 34px;
   align-items: stretch;
-  padding: 66px 0 74px;
 }
 
 .selection-panel,
@@ -125,6 +123,7 @@ button:disabled {
 }
 
 .selection-panel {
+  width: 100%;
   padding: 36px 40px 40px;
 }
 
@@ -919,7 +918,7 @@ button:disabled {
   }
 
   .selection-layout {
-    grid-template-columns: minmax(0, 1.4fr) minmax(220px, 0.8fr);
+    grid-template-columns: minmax(0, 1fr);
     gap: 18px;
   }
 
@@ -1253,10 +1252,6 @@ button:disabled {
     radial-gradient(ellipse at 49% -22%, rgba(81, 132, 143, 0.13), transparent 48%),
     #0c1012;
   background-size: 197px 191px, 263px 239px, 311px 283px, 229px 277px, auto, auto;
-}
-
-.brand-header {
-  border-bottom-color: #39484a;
 }
 
 .brand-symbol,

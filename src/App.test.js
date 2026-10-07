@@ -92,7 +92,7 @@ test('provides accessible help for qualifying Assist and support actions', () =>
   expect(screen.getByText(/grenade thrown at an ally does not count/i)).toBeInTheDocument();
 });
 
-test('tracks reversible interactions in the current tab session', () => {
+test('tracks reversible interactions while persisting across browser sessions', () => {
   const view = render(<App />);
   fireEvent.click(screen.getByLabelText('Hawks'));
   fireEvent.click(screen.getByLabelText('Trick'));
@@ -113,8 +113,8 @@ test('tracks reversible interactions in the current tab session', () => {
   view.unmount();
   render(<App />);
   expect(screen.getByLabelText('Hawks and Trick, Assist 1, plus 10 XP')).toBeChecked();
-  expect(JSON.parse(window.sessionStorage.getItem(SESSION_STORAGE_KEY)).mission.pairs[0].otherActions[2]).toBe(true);
-  expect(window.localStorage.getItem(SESSION_STORAGE_KEY)).toBeNull();
+  expect(JSON.parse(window.localStorage.getItem(SESSION_STORAGE_KEY)).mission.pairs[0].otherActions[2]).toBe(true);
+  expect(window.sessionStorage.getItem(SESSION_STORAGE_KEY)).toBeNull();
   expect(screen.queryByText('MISSION TURN')).not.toBeInTheDocument();
   expect(screen.queryByRole('button', { name: /next turn/i })).not.toBeInTheDocument();
 });
@@ -147,14 +147,14 @@ test('starting a new mission resets interactions and keeps the selected operator
 });
 
 test('discards corrupted saved data and starts from a clean selection', () => {
-  window.sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify({ version: 1, operators: 'invalid' }));
+  window.localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify({ version: 1, operators: 'invalid' }));
   render(<App />);
 
   expect(screen.getByRole('status')).toHaveTextContent('Unreadable saved mission data was cleared.');
   expect(screen.getByRole('button', { name: /start mission/i })).toBeDisabled();
 });
 
-test('clears previous persistent progress instead of restoring it', () => {
+test('restores previous persistent progress from local storage', () => {
   const previousState = createInitialState();
   previousState.mission = {
     selectedOperatorIds: ['hawks', 'trick'],
@@ -168,15 +168,15 @@ test('clears previous persistent progress instead of restoring it', () => {
 
   render(<App />);
 
-  expect(window.localStorage.getItem(SESSION_STORAGE_KEY)).toBeNull();
-  expect(screen.getByRole('button', { name: /start mission/i })).toBeDisabled();
-  expect(screen.queryByRole('heading', { name: 'Hawks + Trick' })).not.toBeInTheDocument();
+  expect(window.localStorage.getItem(SESSION_STORAGE_KEY)).not.toBeNull();
+  expect(screen.getByRole('heading', { name: 'Hawks + Trick' })).toBeInTheDocument();
+  expect(screen.queryByRole('button', { name: /start mission/i })).not.toBeInTheDocument();
 });
 
 test('keeps saved mission progress while dropping legacy turn data', () => {
   const previousState = createInitialState();
   const selectedOperatorIds = ['hawks', 'trick'];
-  window.sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify({
+  window.localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify({
     ...previousState,
     mission: {
       turn: 4,
@@ -191,19 +191,19 @@ test('keeps saved mission progress while dropping legacy turn data', () => {
 
   render(<App />);
 
-  const savedMission = JSON.parse(window.sessionStorage.getItem(SESSION_STORAGE_KEY)).mission;
+  const savedMission = JSON.parse(window.localStorage.getItem(SESSION_STORAGE_KEY)).mission;
   expect(savedMission.turn).toBeUndefined();
   expect(savedMission.pairs[0].assists).toEqual([true, false]);
   expect(screen.queryByText('MISSION TURN')).not.toBeInTheDocument();
 });
 
-test('continues working in memory when session storage cannot save', async () => {
+test('continues working in memory when local storage cannot save', async () => {
   const setItem = jest.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
     throw new Error('Storage unavailable');
   });
 
   render(<App />);
-  expect(await screen.findByText('Progress cannot be kept for this tab session in this browser.')).toBeInTheDocument();
+  expect(await screen.findByText('Progress cannot be kept in this browser.')).toBeInTheDocument();
 
   fireEvent.click(screen.getByLabelText('Hawks'));
   fireEvent.click(screen.getByLabelText('Trick'));

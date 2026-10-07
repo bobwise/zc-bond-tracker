@@ -18,13 +18,13 @@ function loadInitialState() {
   let legacyDataCleanupFailed = false;
 
   try {
-    window.localStorage.removeItem(SESSION_STORAGE_KEY);
+    window.sessionStorage.removeItem(SESSION_STORAGE_KEY);
   } catch {
     legacyDataCleanupFailed = true;
   }
 
   try {
-    saved = window.sessionStorage.getItem(SESSION_STORAGE_KEY);
+    saved = window.localStorage.getItem(SESSION_STORAGE_KEY);
   } catch {
     return {
       state: createInitialState(),
@@ -72,6 +72,7 @@ function loadInitialState() {
 function discardSavedState(legacyDataCleanupFailed) {
   try {
     window.sessionStorage.removeItem(SESSION_STORAGE_KEY);
+    window.localStorage.removeItem(SESSION_STORAGE_KEY);
     return {
       state: createInitialState(),
       persistenceAvailable: true,
@@ -133,12 +134,14 @@ function CategoryHelp({ kind, pairId }) {
           <>
             <p className="tooltip-kicker">ASSIST · +10 XP</p>
             <p>Request another Operator to assist with your attack. Both Operators get 10 Bond XP as soon as the Assist is requested—even if the attack is not made. The same pair can earn this twice per mission, in either direction.</p>
+            <p><strong>Assist examples:</strong> a Scoundrel ultimate can qualify when it completes the attack assist, and the same pair can earn the bonus in either direction.</p>
           </>
         ) : (
           <>
             <p className="tooltip-kicker">BUFFS · +4 XP EACH</p>
             <p>Healing Stims, Combat Stims, Hawks’ PICO-5, and an Astromech’s Built-In Commlink.</p>
             <p><strong>Class ultimates:</strong> a Medic’s Morale Boost and an Astromech’s Coordinated Support grant XP from the caster to every ally who receives the buff.</p>
+            <p>Examples include A–B, A–C, and A–D. A grenade thrown at an ally does not count.</p>
           </>
         )}
       </div>
@@ -252,11 +255,9 @@ function OperatorSelector({ operators, selectedIds, onSelectionChange, onStart, 
         <div className="section-intro">
           <p className="eyebrow">MISSION SETUP</p>
           <h1>Select your operators</h1>
-          <p>Choose 2–4 operators. Every unique pair gets its own Bond XP checklist.</p>
         </div>
 
         <div className="selection-status" aria-live="polite">
-          <span>{selectedIds.length} <span>/ 4 selected</span></span>
           <span>{selectedIds.length < 2 ? 'Select at least 2 to begin' : `${selectedIds.length * (selectedIds.length - 1) / 2} ${selectedIds.length === 2 ? 'pair' : 'pairs'} to track`}</span>
         </div>
 
@@ -329,7 +330,7 @@ function App() {
   useEffect(() => {
     let available = true;
     try {
-      window.sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(appState));
+      window.localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(appState));
     } catch {
       available = false;
     }
@@ -434,9 +435,8 @@ function App() {
               <span className="brand-symbol" aria-hidden="true">ZC</span>
               <span><strong>ZERO COMPANY</strong><small>BOND XP TRACKER</small></span>
             </a>
-            <span className="header-status"><span className="status-dot" /> MISSION CONTROL</span>
           </header>
-          {!persistenceAvailable && <p className="storage-notice" role="status">Progress cannot be kept for this tab session in this browser.</p>}
+          {!persistenceAvailable && <p className="storage-notice" role="status">Progress cannot be kept in this browser.</p>}
           {loaded.recoveredCorruptData && <p className="storage-notice" role="status">Unreadable saved mission data was cleared. You can start a fresh mission.</p>}
           {loaded.legacyDataCleanupFailed && <p className="storage-notice" role="status">Previous persistent mission data could not be removed from this browser.</p>}
           <OperatorSelector
@@ -461,7 +461,7 @@ function App() {
           </a>
         </header>
 
-        {!persistenceAvailable && <p className="storage-notice" role="status">Progress cannot be kept for this tab session in this browser.</p>}
+        {!persistenceAvailable && <p className="storage-notice" role="status">Progress cannot be kept in this browser.</p>}
         {loaded.legacyDataCleanupFailed && <p className="storage-notice" role="status">Previous persistent mission data could not be removed from this browser.</p>}
 
         <main>
