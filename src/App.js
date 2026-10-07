@@ -155,6 +155,7 @@ function CategoryHelp({ kind, pairId }) {
         ) : (
           <>
             <p className="tooltip-kicker">BUFFS · +4 XP EACH</p>
+            <p>Healing Stims, Combat Stims, Hawks’ PICO-5, and Astromech’s Built-In Commlink.</p>
             <div className="buff-tooltip-icons" aria-label="Buff examples">
               <div className="buff-tooltip-icon">
                 <img src={`${process.env.PUBLIC_URL}/operator-profiles/healing-stim.png`} alt="" />
@@ -172,6 +173,9 @@ function CategoryHelp({ kind, pairId }) {
                 <img src={`${process.env.PUBLIC_URL}/operator-profiles/commlink.png`} alt="" />
                 <span>Built-In Commlink</span>
               </div>
+            </div>
+            <p><strong>Class ultimates:</strong> Medic’s Morale Boost and Astromech’s Coordinated Support grant XP to every ally who receives the buff.</p>
+            <div className="buff-tooltip-icons" aria-label="Buff examples">
               <div className="buff-tooltip-icon">
                 <img src={`${process.env.PUBLIC_URL}/operator-profiles/morale-boost.png`} alt="" />
                 <span>Morale Boost</span>
@@ -181,8 +185,6 @@ function CategoryHelp({ kind, pairId }) {
                 <span>Coordinated Support</span>
               </div>
             </div>
-            <p>Healing Stims, Combat Stims, Hawks’ PICO-5, and Astromech’s Built-In Commlink.</p>
-            <p><strong>Class ultimates:</strong> Medic’s Morale Boost and Astromech’s Coordinated Support grant XP to every ally who receives the buff.</p>
           </>
         )}
       </div>
