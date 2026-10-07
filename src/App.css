@@ -740,12 +740,10 @@ button:disabled {
 }
 
 .category-tooltip {
-  position: absolute;
+  position: fixed;
   display: none;
-  top: calc(100% + 7px);
-  left: 0;
   z-index: 20;
-  width: min(340px, calc(100vw - 48px));
+  width: min(280px, calc(100vw - 32px));
   padding: 14px 15px;
   border: 1px solid #719da4;
   border-top: 2px solid #d0b268;

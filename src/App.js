@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import './App.css';
 import {
   calculateMaximumMissionXp,
@@ -110,7 +110,22 @@ function ProgressBar({ value, max, label }) {
 function CategoryHelp({ kind, pairId }) {
   const isAssist = kind === 'assist';
   const [isOpen, setIsOpen] = useState(false);
+  const [tooltipPosition, setTooltipPosition] = useState(null);
   const tooltipId = `help-${pairId}-${kind}`;
+  const buttonRef = useRef(null);
+
+  const positionTooltip = useCallback(() => {
+    if (!buttonRef.current) return;
+
+    const buttonBounds = buttonRef.current.getBoundingClientRect();
+    const tooltipWidth = Math.min(280, Math.max(0, window.innerWidth - 32));
+    const left = Math.max(16, Math.min(buttonBounds.left, window.innerWidth - tooltipWidth - 16));
+    setTooltipPosition({ left, top: buttonBounds.bottom + 7 });
+  }, []);
+
+  useLayoutEffect(() => {
+    if (isOpen) positionTooltip();
+  }, [isOpen, positionTooltip]);
 
   useEffect(() => {
     function handlePointerDown(event) {
@@ -124,17 +139,26 @@ function CategoryHelp({ kind, pairId }) {
       if (event.key === 'Escape') setIsOpen(false);
     }
 
+    function handleViewportChange() {
+      if (isOpen) positionTooltip();
+    }
+
     document.addEventListener('pointerdown', handlePointerDown);
     document.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('resize', handleViewportChange);
+    window.addEventListener('scroll', handleViewportChange, true);
     return () => {
       document.removeEventListener('pointerdown', handlePointerDown);
       document.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('resize', handleViewportChange);
+      window.removeEventListener('scroll', handleViewportChange, true);
     };
-  }, []);
+  }, [isOpen, positionTooltip]);
 
   return (
     <div className={`category-help${isOpen ? ' category-help--open' : ''}`}>
       <button
+        ref={buttonRef}
         className="category-help-button"
         type="button"
         aria-label={`About ${isAssist ? 'Assist' : 'Buffs'} Bond XP`}
@@ -142,11 +166,21 @@ function CategoryHelp({ kind, pairId }) {
         aria-controls={tooltipId}
         aria-describedby={tooltipId}
         title={`About ${isAssist ? 'Assist' : 'Buffs'} Bond XP`}
+        onMouseEnter={positionTooltip}
+        onFocus={positionTooltip}
         onClick={() => setIsOpen((open) => !open)}
       >
         <span aria-hidden="true">?</span>
       </button>
-      <div id={tooltipId} className="category-tooltip" role="tooltip">
+      <div
+        id={tooltipId}
+        className="category-tooltip"
+        role="tooltip"
+        style={tooltipPosition ? {
+          left: `${tooltipPosition.left}px`,
+          top: `${tooltipPosition.top}px`,
+        } : undefined}
+      >
         {isAssist ? (
           <>
             <p className="tooltip-kicker">ASSIST · +10 XP</p>

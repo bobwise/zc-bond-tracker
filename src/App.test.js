@@ -121,6 +121,34 @@ test('provides accessible help for qualifying Assist and support actions', () =>
   expect(otherHelp).toHaveAttribute('aria-expanded', 'false');
 });
 
+test('keeps help tooltips within the viewport near its right edge', () => {
+  render(<App />);
+  fireEvent.click(screen.getByLabelText('Hawks'));
+  fireEvent.click(screen.getByLabelText('Trick'));
+  fireEvent.click(screen.getByRole('button', { name: /start mission/i }));
+
+  const helpButton = screen.getByLabelText('About Assist Bond XP');
+  const buttonLeft = window.innerWidth - 20;
+  helpButton.getBoundingClientRect = () => ({
+    left: buttonLeft,
+    right: buttonLeft + 20,
+    top: 40,
+    bottom: 60,
+    width: 20,
+    height: 20,
+    x: buttonLeft,
+    y: 40,
+    toJSON: () => ({}),
+  });
+  fireEvent.mouseEnter(helpButton);
+
+  const tooltip = document.getElementById(helpButton.getAttribute('aria-controls'));
+  expect(tooltip).toHaveStyle({
+    left: `${Math.max(16, window.innerWidth - 296)}px`,
+    top: '67px',
+  });
+});
+
 test('tracks reversible interactions while persisting across browser sessions', () => {
   const view = render(<App />);
   fireEvent.click(screen.getByLabelText('Hawks'));
