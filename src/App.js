@@ -150,15 +150,39 @@ function CategoryHelp({ kind, pairId }) {
         {isAssist ? (
           <>
             <p className="tooltip-kicker">ASSIST · +10 XP</p>
-            <p>Request another Operator to assist with your attack. Both Operators get 10 Bond XP as soon as the Assist is requested—even if the attack is not made. The same pair can earn this twice per mission, in either direction.</p>
-            <p>A Scoundrel ultimate can qualify when it completes the assist.</p>
+            <p>Request another Operator assist your next attack. Both Operators get 10 Bond XP as soon as the Assist is requested. Each pair can earn this twice per mission.</p>
           </>
         ) : (
           <>
             <p className="tooltip-kicker">BUFFS · +4 XP EACH</p>
-            <p>Healing Stims, Combat Stims, Hawks’ PICO-5, and an Astromech’s Built-In Commlink.</p>
-            <p><strong>Class ultimates:</strong> a Medic’s Morale Boost and an Astromech’s Coordinated Support grant XP from the caster to every ally who receives the buff.</p>
-            <p>A–B, A–C, and A–D are reference examples. A grenade thrown at an ally does not count.</p>
+            <div className="buff-tooltip-icons" aria-label="Buff examples">
+              <div className="buff-tooltip-icon">
+                <img src={`${process.env.PUBLIC_URL}/operator-profiles/healing-stim.png`} alt="" />
+                <span>Healing Stim</span>
+              </div>
+              <div className="buff-tooltip-icon">
+                <img src={`${process.env.PUBLIC_URL}/operator-profiles/combat-stim.png`} alt="" />
+                <span>Combat Stim</span>
+              </div>
+              <div className="buff-tooltip-icon">
+                <img src={`${process.env.PUBLIC_URL}/operator-profiles/pico-5.png`} alt="" />
+                <span>PICO-5</span>
+              </div>
+              <div className="buff-tooltip-icon">
+                <img src={`${process.env.PUBLIC_URL}/operator-profiles/commlink.png`} alt="" />
+                <span>Built-In Commlink</span>
+              </div>
+              <div className="buff-tooltip-icon">
+                <img src={`${process.env.PUBLIC_URL}/operator-profiles/morale-boost.png`} alt="" />
+                <span>Morale Boost</span>
+              </div>
+              <div className="buff-tooltip-icon">
+                <img src={`${process.env.PUBLIC_URL}/operator-profiles/coordinated-support.png`} alt="" />
+                <span>Coordinated Support</span>
+              </div>
+            </div>
+            <p>Healing Stims, Combat Stims, Hawks’ PICO-5, and Astromech’s Built-In Commlink.</p>
+            <p><strong>Class ultimates:</strong> Medic’s Morale Boost and Astromech’s Coordinated Support grant XP to every ally who receives the buff.</p>
           </>
         )}
       </div>
@@ -171,6 +195,14 @@ function InteractionGroup({ pair, kind, title, xpPerAction, checkedItems, onTogg
     <section className="interaction-group" aria-label={title}>
       <div className="category-heading">
         <div className="category-title">
+          {kind === 'assist' && (
+            <img
+              className="assist-symbol"
+              src={`${process.env.PUBLIC_URL}/operator-profiles/assist-symbol.svg`}
+              alt=""
+              aria-hidden="true"
+            />
+          )}
           <h3>{title}</h3>
           <CategoryHelp kind={kind} pairId={pair.id} />
         </div>

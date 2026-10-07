@@ -44,6 +44,13 @@ test('shows the pair cap by the total and hides category XP subtotals', () => {
   fireEvent.click(screen.getByRole('button', { name: /start mission/i }));
 
   const pairCard = screen.getByRole('article');
+  const assistSection = within(pairCard).getByRole('region', { name: 'Assist' });
+  const buffsSection = within(pairCard).getByRole('region', { name: 'Buffs' });
+  expect(assistSection.querySelector('.assist-symbol')).toHaveAttribute(
+    'src',
+    `${process.env.PUBLIC_URL}/operator-profiles/assist-symbol.svg`,
+  );
+  expect(buffsSection.querySelector('.assist-symbol')).toBeNull();
   expect(within(pairCard).queryByText(/\/ 20 XP/)).not.toBeInTheDocument();
   expect(within(pairCard).queryByText(/XP remaining this mission/i)).not.toBeInTheDocument();
   expect(within(pairCard).queryByRole('contentinfo')).not.toBeInTheDocument();
@@ -100,6 +107,14 @@ test('provides accessible help for qualifying Assist and support actions', () =>
   expect(screen.getByText(/Medic’s Morale Boost and an Astromech’s Coordinated Support/i)).toBeInTheDocument();
   expect(screen.getByText(/A–B, A–C, and A–D/i)).toBeInTheDocument();
   expect(screen.getByText(/grenade thrown at an ally does not count/i)).toBeInTheDocument();
+  const buffIconItems = screen.getByLabelText('Buff examples').querySelectorAll('.buff-tooltip-icon');
+  expect(buffIconItems).toHaveLength(6);
+  ['healing-stim', 'combat-stim', 'pico-5', 'commlink', 'morale-boost', 'coordinated-support'].forEach((iconName, index) => {
+    expect(buffIconItems[index].querySelector('img')).toHaveAttribute(
+      'src',
+      `${process.env.PUBLIC_URL}/operator-profiles/${iconName}.png`,
+    );
+  });
 
   fireEvent.keyDown(document, { key: 'Escape' });
   expect(assistHelp).toHaveAttribute('aria-expanded', 'false');
