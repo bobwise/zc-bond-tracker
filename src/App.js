@@ -201,7 +201,17 @@ function PairCard({ pair, onToggle }) {
     <article className={`pair-card${complete ? ' pair-card--complete' : ''}`}>
       <div className="pair-heading">
         <div>
-          <h2>{pair.operatorAName} <span>+</span> {pair.operatorBName}</h2>
+          <h2 className="pair-operators" aria-label={`${pair.operatorAName} + ${pair.operatorBName}`}>
+            <span className="pair-operator">
+              {pair.operatorAProfileImage && <img src={pair.operatorAProfileImage} alt="" />}
+              <span>{pair.operatorAName}</span>
+            </span>
+            <span className="pair-operator-separator" aria-hidden="true">+</span>
+            <span className="pair-operator">
+              {pair.operatorBProfileImage && <img src={pair.operatorBProfileImage} alt="" />}
+              <span>{pair.operatorBName}</span>
+            </span>
+          </h2>
         </div>
         <div className="pair-xp">
           <strong>{totalXp}</strong>
@@ -230,6 +240,22 @@ function PairCard({ pair, onToggle }) {
 
     </article>
   );
+}
+
+const OPERATOR_PROFILE_IMAGES = {
+  hawks: `${process.env.PUBLIC_URL}/operator-profiles/hawks.png`,
+  kabb: `${process.env.PUBLIC_URL}/operator-profiles/kabb.png`,
+  cly: `${process.env.PUBLIC_URL}/operator-profiles/cly.png`,
+  luco: `${process.env.PUBLIC_URL}/operator-profiles/luco.png`,
+  trick: `${process.env.PUBLIC_URL}/operator-profiles/trick.png`,
+  jae: `${process.env.PUBLIC_URL}/operator-profiles/jae.png`,
+  'm-3vo': `${process.env.PUBLIC_URL}/operator-profiles/m-3vo.png`,
+  'tel-rea': `${process.env.PUBLIC_URL}/operator-profiles/tel-rea.png`,
+};
+
+function getOperatorProfileImage(operatorId) {
+  return OPERATOR_PROFILE_IMAGES[operatorId]
+    || (operatorId.startsWith('custom-') ? `${process.env.PUBLIC_URL}/operator-profiles/custom.svg` : null);
 }
 
 function OperatorSelector({ operators, selectedIds, onSelectionChange, onStart, onAddOperator }) {
@@ -282,6 +308,7 @@ function OperatorSelector({ operators, selectedIds, onSelectionChange, onStart, 
           {operators.map((operator) => {
             const selected = selectedIds.includes(operator.id);
             const disabled = !selected && selectedIds.length >= 4;
+            const profileImage = getOperatorProfileImage(operator.id);
 
             return (
               <label className={`operator-option${selected ? ' operator-option--selected' : ''}${disabled ? ' operator-option--disabled' : ''}`} key={operator.id}>
@@ -292,6 +319,7 @@ function OperatorSelector({ operators, selectedIds, onSelectionChange, onStart, 
                   onChange={() => toggleOperator(operator.id)}
                 />
                 <span className="custom-checkbox" aria-hidden="true" />
+                {profileImage && <img className="operator-avatar" src={profileImage} alt="" />}
                 <span className="operator-name">{operator.name}</span>
                 {operator.isCustom && <span className="custom-tag">CUSTOM</span>}
                 {selected && <span className="selected-mark" aria-hidden="true">✓</span>}
@@ -360,6 +388,8 @@ function App() {
     ...pair,
     operatorAName: operatorById.get(pair.operatorAId)?.name || 'Unknown operator',
     operatorBName: operatorById.get(pair.operatorBId)?.name || 'Unknown operator',
+    operatorAProfileImage: getOperatorProfileImage(pair.operatorAId),
+    operatorBProfileImage: getOperatorProfileImage(pair.operatorBId),
   }));
   const xp = calculateMissionXp(pairs);
   const maxXp = calculateMaximumMissionXp(pairs);

@@ -182,10 +182,10 @@ button:disabled {
 .operator-option {
   position: relative;
   display: flex;
-  min-height: 52px;
+  min-height: 72px;
   align-items: center;
   gap: 11px;
-  padding: 0 13px;
+  padding: 7px 13px;
   border: 1px solid #353a34;
   background: #141715;
   cursor: pointer;
@@ -243,6 +243,14 @@ button:disabled {
   font-size: 13px;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.operator-avatar {
+  width: 54px;
+  height: 54px;
+  flex: 0 0 54px;
+  border: 1px solid #52656a;
+  object-fit: cover;
 }
 
 .custom-tag {
@@ -504,7 +512,6 @@ button:disabled {
   gap: 16px;
   margin-top: 10px;
   padding-top: 9px;
-  border-top: 1px solid #30352e;
 }
 
 .mission-actions {
@@ -592,7 +599,28 @@ button:disabled {
   letter-spacing: 0.01em;
 }
 
-.pair-heading h2 span {
+.pair-heading .pair-operators {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.pair-operator {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 7px;
+}
+
+.pair-operator img {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  border: 1px solid #52656a;
+  object-fit: cover;
+}
+
+.pair-heading h2 .pair-operator-separator {
   color: #bba66f;
   font-weight: 400;
 }
@@ -1123,7 +1151,7 @@ button:disabled {
 }
 
 .page-frame--tracker .overview-meta {
-  margin-top: 5px;
+  margin-top: 12px;
 }
 
 .page-frame--tracker .overview-bottom {
@@ -1403,10 +1431,6 @@ button:disabled {
   background: #d0b36c;
 }
 
-.overview-bottom {
-  border-top-color: #344448;
-}
-
 .turn-step {
   border-color: #50676b;
   background: #101719;
@@ -1429,7 +1453,7 @@ button:disabled {
   color: #f0eee4;
 }
 
-.pair-heading h2 span {
+.pair-heading h2 .pair-operator-separator {
   color: #82bac3;
 }
 

@@ -11,12 +11,22 @@ beforeEach(() => {
 test('requires two operators and creates the selected pair', () => {
   render(<App />);
 
+  ['Hawks', 'Kabb', 'Cly', 'Luco', 'Trick', 'Jae', 'M-3VO', 'Tel-Rea'].forEach((name) => {
+    const option = screen.getByLabelText(name).closest('.operator-option');
+    const imageName = name.toLowerCase() === 'm-3vo' ? 'm-3vo' : name.toLowerCase();
+    expect(option.querySelector('img')).toHaveAttribute('src', `${process.env.PUBLIC_URL}/operator-profiles/${imageName}.png`);
+  });
+
   expect(screen.getByRole('button', { name: /start mission/i })).toBeDisabled();
   fireEvent.click(screen.getByLabelText('Hawks'));
   fireEvent.click(screen.getByLabelText('Trick'));
   fireEvent.click(screen.getByRole('button', { name: /start mission/i }));
 
   expect(screen.getByRole('heading', { name: 'Hawks + Trick' })).toBeInTheDocument();
+  const pairHeading = screen.getByRole('heading', { name: 'Hawks + Trick' });
+  expect(pairHeading.querySelectorAll('img')).toHaveLength(2);
+  expect(pairHeading.querySelector('img')).toHaveAttribute('src', `${process.env.PUBLIC_URL}/operator-profiles/hawks.png`);
+  expect(pairHeading.querySelectorAll('img')[1]).toHaveAttribute('src', `${process.env.PUBLIC_URL}/operator-profiles/trick.png`);
   expect(screen.queryByText('OPERATOR PAIR')).not.toBeInTheDocument();
   expect(screen.getByText('0', { selector: '.pair-xp strong' })).toBeInTheDocument();
   expect(screen.queryByText('MISSION IN PROGRESS')).not.toBeInTheDocument();
@@ -134,6 +144,8 @@ test('allows custom operators and rejects duplicate names', () => {
   fireEvent.click(screen.getByRole('button', { name: /add operator/i }));
   expect(screen.getByLabelText(/^Echo/)).toBeInTheDocument();
   expect(screen.getByLabelText(/^Echo/)).toBeChecked();
+  expect(screen.getByLabelText(/^Echo/).closest('.operator-option').querySelector('img'))
+    .toHaveAttribute('src', `${process.env.PUBLIC_URL}/operator-profiles/custom.svg`);
 });
 
 test('starting a new mission resets interactions and keeps the selected operators', () => {
