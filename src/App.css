@@ -1252,10 +1252,10 @@ button:disabled {
 
 .app-shell {
   background:
-    radial-gradient(circle at 12% 16%, rgba(136, 187, 198, 0.2) 0 1px, transparent 1.5px),
-    radial-gradient(circle at 78% 27%, rgba(209, 182, 118, 0.18) 0 1px, transparent 1.5px),
-    radial-gradient(circle at 43% 71%, rgba(136, 187, 198, 0.14) 0 1px, transparent 1.5px),
-    radial-gradient(circle at 91% 83%, rgba(209, 182, 118, 0.16) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 12% 16%, rgba(136, 187, 198, 0.27) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 78% 27%, rgba(209, 182, 118, 0.25) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 43% 71%, rgba(136, 187, 198, 0.21) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 91% 83%, rgba(209, 182, 118, 0.23) 0 1px, transparent 1.5px),
     radial-gradient(ellipse at 49% -22%, rgba(81, 132, 143, 0.13), transparent 48%),
     #0c1012;
   background-size: 197px 191px, 263px 239px, 311px 283px, 229px 277px, auto, auto;

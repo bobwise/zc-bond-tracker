@@ -14,7 +14,8 @@ body {
   margin: 0;
   background: #101312;
   color: #ecebe2;
-  font-family: 'Bahnschrift', 'Arial Narrow', 'Segoe UI', sans-serif;
+  font-family: 'Bahnschrift SemiCondensed', 'Bahnschrift', 'Arial Narrow', 'Segoe UI', sans-serif;
+  text-transform: uppercase;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
