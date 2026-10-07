@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/static/css/main.0adec28f.css",
-    "main.js": "/static/js/main.f3c14317.js",
-    "static/js/453.a6865fde.chunk.js": "/static/js/453.a6865fde.chunk.js",
-    "index.html": "/index.html",
-    "main.0adec28f.css.map": "/static/css/main.0adec28f.css.map",
-    "main.f3c14317.js.map": "/static/js/main.f3c14317.js.map",
-    "453.a6865fde.chunk.js.map": "/static/js/453.a6865fde.chunk.js.map"
+    "main.css": "/zc-bond-tracker/static/css/main.0adec28f.css",
+    "main.js": "/zc-bond-tracker/static/js/main.211fe0e4.js",
+    "static/js/453.a6865fde.chunk.js": "/zc-bond-tracker/static/js/453.a6865fde.chunk.js",
+    "index.html": "/zc-bond-tracker/index.html",
+    "main.0adec28f.css.map": "/zc-bond-tracker/static/css/main.0adec28f.css.map",
+    "main.211fe0e4.js.map": "/zc-bond-tracker/static/js/main.211fe0e4.js.map",
+    "453.a6865fde.chunk.js.map": "/zc-bond-tracker/static/js/453.a6865fde.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.0adec28f.css",
-    "static/js/main.f3c14317.js"
+    "static/js/main.211fe0e4.js"
   ]
 }
