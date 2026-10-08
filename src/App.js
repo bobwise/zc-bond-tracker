@@ -461,7 +461,6 @@ function App() {
   }));
   const xp = calculateMissionXp(pairs);
   const maxXp = calculateMaximumMissionXp(pairs);
-  const completedPairs = pairs.filter(isPairComplete).length;
   const complete = isMissionComplete(pairs);
   const progress = maxXp === 0 ? 0 : Math.round((xp / maxXp) * 100);
 
@@ -592,11 +591,10 @@ function App() {
               </div>
             </div>
             <ProgressBar value={xp} max={maxXp} label="Overall mission Bond XP progress" />
-            <div className="overview-meta">
-              <span>{progress}% complete</span>
-              <span>{completedPairs} / {pairs.length} pairs complete</span>
-            </div>
             <div className="overview-bottom">
+              <span className={`progress-percentage${complete ? ' progress-percentage--complete' : ''}`}>
+                {progress}%<span className="progress-percentage-label">complete</span>
+              </span>
               <div className="mission-actions">
                 <button className="button button--quiet" type="button" onClick={editOperators}>Change operators</button>
                 <button className="button button--secondary" type="button" onClick={startNewMission}>New mission <span className="new-mission-icon" aria-hidden="true">↻</span></button>

@@ -497,18 +497,37 @@ button:disabled {
   transition: width 180ms ease;
 }
 
-.overview-meta {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 9px;
+.progress-percentage {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  color: #e9d49b;
+  font-family: 'Bahnschrift SemiCondensed', 'Bahnschrift', 'Arial Narrow', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  transition: color 180ms ease, text-shadow 180ms ease;
+}
+
+.progress-percentage-label {
   color: #a4a89b;
+  font-family: inherit;
   font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.progress-percentage--complete {
+  color: #fff0bc;
+  text-shadow: 0 0 16px rgba(233, 212, 155, 0.58);
 }
 
 .overview-bottom {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   gap: 16px;
   margin-top: 10px;
   padding-top: 9px;
@@ -1176,13 +1195,9 @@ button:disabled {
   margin-top: 12px;
 }
 
-.page-frame--tracker .overview-meta {
-  margin-top: 12px;
-}
-
 .page-frame--tracker .overview-bottom {
-  margin-top: 10px;
-  padding-top: 9px;
+  margin-top: 12px;
+  padding-top: 0;
 }
 
 .page-frame--tracker .mission-actions .button {
@@ -1519,14 +1534,29 @@ button:disabled {
   }
 
   .page-frame--tracker .overview-bottom {
-    align-items: flex-start;
-    flex-direction: column;
-    margin-top: 22px;
-    padding-top: 17px;
+    gap: 8px;
+    margin-top: 12px;
   }
 
   .page-frame--tracker .mission-actions {
-    width: 100%;
+    gap: 5px;
+  }
+
+  .page-frame--tracker .mission-actions .button {
+    min-height: 36px;
+    padding: 0 6px;
+    font-size: 9px;
+    white-space: nowrap;
+  }
+
+  .page-frame--tracker .progress-percentage {
+    gap: 5px;
+    flex-shrink: 0;
+    font-size: 21px;
+  }
+
+  .page-frame--tracker .progress-percentage-label {
+    font-size: 7px;
   }
 
   .page-frame--tracker .pair-grid {
